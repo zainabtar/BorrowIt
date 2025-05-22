@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BorrowIt</title>
+    <!-- bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+    <h1 class="mb-4">BorrowIt Item List</h1>
+
+    <!--buttons to go to other pages-->
+    <a href="/add" class="btn btn-success mb-3">Add New Item</a>
+    <a href="/register" class="btn btn-primary mb-3 ms-2">Register a New User</a>
+
+    {% if items %}
+    <!-- table to display all the items -->
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Item Name</th>
+                <th>Type</th>
+                <th>Building Code</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <!--show each items details -->
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>
+                {% if item[3] != 'Returned' %}
+                <!--show button if the item is not returned yet -->
+                <form method="POST" action="/update">
+                    <input type="hidden" name="item_name" value="{{ item[0] }}">
+                    <button type="submit" class="btn btn-warning btn-sm">Mark as Returned</button>
+                </form>
+                {% else %}
+                <span class="badge bg-secondary">Returned</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">No items yet.</div>
+    {% endif %}
+</body>
+</html>
+
+
+
